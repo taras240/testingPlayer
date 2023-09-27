@@ -1,51 +1,57 @@
 package com.example.practice
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputEditText
 import org.jsoup.Jsoup
 import java.net.URL
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.DrawableImageViewTarget
-import java.lang.Error
+
 
 val mediaPlayer = MediaPlayer()
 
 class MainActivity : AppCompatActivity() {
+    var request = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        Log.d("my-tag", "html")
-        val textView = findViewById<TextView>(R.id.textView)
+
+        val requestTextView = findViewById<TextInputEditText>(R.id.inputEditTextView)
+        requestTextView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                request = requestTextView.text.toString()
+                val searchMusicTask = MyAsyncTask()
+                searchMusicTask.execute()
+
+            }
+            false
+        }
+
         val url = "https://spaces.im/musicat/"
-//        val htmlString = getHtml(url)
-
-        val task = MyAsyncTask()
-        task.execute()
-
 
     }
 
     var ht = ""
     private var list = mutableListOf<String>()
+    private val searchPrefix = "https://spaces.im/musicat/search/index/?Link_id=168667&T=28&sq="
 
     private inner class MyAsyncTask : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
             val html =
-                getHtml("https://spaces.im/musicat/search/index/?Link_id=168667&T=28&sq=rock")
+                getHtml("${searchPrefix}$request")
             ht = html
             return html
         }

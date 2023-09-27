@@ -4,26 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputTextView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:textColorHint="@android:color/darker_gray"
+        app:endIconMode="clear_text"
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEditTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Enter your request"
+            android:imeOptions="actionSearch"
+            android:inputType="textUri"
+
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -31,7 +33,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputTextView">
 
     </ListView>
